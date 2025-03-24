@@ -1,0 +1,55 @@
+CREATE TABLE adresses (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Rue VARCHAR(255) NOT NULL,
+    Numero VARCHAR(10) NOT NULL,
+    CodePostal VARCHAR(10) NOT NULL,
+    Ville VARCHAR(100) NOT NULL,
+    Pays VARCHAR(100) NOT NULL
+);
+-----------------------------------------
+CREATE TABLE clients (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Téléphone VARCHAR(20) NULL,
+    AdresseID INT NULL,
+    DateInscription DATETIME DEFAULT CURRENT_TIMESTAMP,
+    NumCompteClient VARCHAR(50) UNIQUE NULL,
+    Sexe ENUM('M', 'F', 'Autre') NULL,
+    DateNaissance DATE NOT NULL,
+    EtatCivil ENUM('Célibataire', 'Marié(e)', 'Veuf/Veuve', 'Divorcé(e)') NULL,
+    SalaireMensuel DECIMAL(10,2) NULL,
+    FOREIGN KEY (AdresseID) REFERENCES dbservices.adresses(ID) ON DELETE SET NULL
+);
+-------------------------------------------
+CREATE TABLE categories (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    NOM VARCHAR(150) NOT NULL,
+    DESCRIPTION TEXT
+    )
+-------------------------------------------
+CREATE TABLE produits (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(150) NOT NULL,
+    Prix DECIMAL(10,0) NOT NULL,
+    CategorieId INT NOT NULL,
+    StockId INT NOT NULL,
+    Description TEXT,
+    FOREIGN KEY (CategorieId) REFERENCES dbservices.categories(ID)
+);
+-------------------------------------------
+CREATE TABLE stocks (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(255) NOT NULL,
+    ProduitId INT NOT NULL,
+    quantité INT NOT NULL DEFAULT 0,
+    stockMin INT NOT NULL DEFAULT 0,
+    stockMax INT NOT NULL DEFAULT 100,
+    DateMaj DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_stocks_produits FOREIGN KEY (ProduitId) REFERENCES dbservices.produits(ID) ON DELETE CASCADE
+);
+-------------------------------------------
+ALTER TABLE produits
+ADD CONSTRAINT fk_produits_stocks
+FOREIGN KEY (StockId) REFERENCES stocks(ID);
+-------------------------------------------

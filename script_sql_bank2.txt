@@ -1,0 +1,41 @@
+CREATE TABLE clients (
+    client_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    client_number VARCHAR(255) UNIQUE NOT NULL,
+    account_number VARCHAR(255) UNIQUE NOT NULL,
+    gender ENUM('male', 'female', 'other') NOT NULL,
+    birth_date DATE NOT NULL,
+    marital_status ENUM('single', 'married', 'widowed', 'divorced') NOT NULL,
+    monthly_income DECIMAL(10,2) DEFAULT 0.00,
+    bank_name VARCHAR(255) DEFAULT 'bank2'
+);
+
+CREATE TABLE accounts (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    account_number VARCHAR(50) NOT NULL,
+    balance DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+    FOREIGN KEY (client_id) REFERENCES bank1.clients(client_id) ON DELETE CASCADE
+);
+
+CREATE TABLE transactions (
+    transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    transaction_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    debit_account_id INT NOT NULL,
+    credit_bank_name VARCHAR(255) NOT NULL,
+    credit_account_number VARCHAR(255) NOT NULL,
+    merchant_name VARCHAR(255) NOT NULL,
+    authentication_type VARCHAR(255) NOT NULL,
+    transferred_amount DECIMAL(15,2) NOT NULL,
+    transaction_note TEXT DEFAULT NULL,
+    new_debit_account_state DECIMAL(15,2) NOT NULL,
+    age_at_request INT,
+    FOREIGN KEY (debit_account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
+);
+
+CREATE TABLE external_transactions (
+    external_transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    local_transaction_id INT NOT NULL,
+    status ENUM('pending', 'completed', 'failed', 'refunded') NOT NULL,
+    FOREIGN KEY (local_transaction_id) REFERENCES transactions(transaction_id) ON DELETE CASCADE
+);

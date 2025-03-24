@@ -1,0 +1,32 @@
+CREATE TABLE orders (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    order_date DATE NOT NULL,
+    order_time TIME NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    status ENUM('pending', 'confirmed', 'shipped', 'delivered', 'canceled') NOT NULL,
+    bank_name VARCHAR(255) NOT NULL,
+    tracking_id VARCHAR(50)
+);
+CREATE TABLE order_lines (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(ID) ON DELETE CASCADE
+);
+CREATE TABLE delivery_tracking (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    tracking_number VARCHAR(255) UNIQUE NOT NULL,
+    shipment_date DATE NULL,
+    estimate_delivery_date DATE NULL,
+    address_id INT NOT NULL
+);
+CREATE TABLE payments (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL CHECK (amount >= 0),
+    status ENUM('pending', 'completed', 'failed', 'refunded') NOT NULL,
+    payment_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    payment_method ENUM('card', 'bank transfer', 'PayPal', 'MasterCard') NOT NULL
+);
