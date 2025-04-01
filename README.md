@@ -54,8 +54,8 @@ db.createUser({
 
 ### Scripts SQL de Création des Bases de Données
 Les scripts de création des bases de données sont disponibles dans le répertoire principal :
-- `script_sql_bank1.txt`
-- `script_sql_bank2.txt`
-- `script_sql_db_services.txt`
-- `script_sql_db_transac.txt`
+- `commande sql db bank 1`
+- `commande sql db bank 2`
+- `commande sql db service `
+- `commande sql db transac`
 
