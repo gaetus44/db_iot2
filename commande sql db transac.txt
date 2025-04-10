@@ -51,7 +51,7 @@ CREATE TABLE orders (
     order_date DATE NOT NULL,
     order_time TIME NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
-    status ENUM('pending', 'shipped', 'delivered', 'cancelled') NOT NULL,
+    status ENUM('pending', 'shipped', 'delivered', 'cancelled','confirmed') NOT NULL,
     bank_name VARCHAR(255) NOT NULL,
     tracking_id VARCHAR(255) NOT NULL,
     address_id INT NOT NULL,

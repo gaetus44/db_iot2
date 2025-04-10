@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Infos MySQL
+USER="utilisateur"
+PASSWORD="MOTDEPASSE"
+
+# Date du jour
+DATE=$(date +"%Y-%m-%d-%H-%M")
+
+# Fichiers de dump
+DUMPFILE1="/tmp/database1_${DATE}.sql"
+DUMPFILE2="/tmp/database2_${DATE}.sql"
+DUMPFILE3="/tmp/database3_${DATE}.sql"
+DUMPFILE4="/tmp/database4_${DATE}.sql"
+
+# Sauvegarde
+mysqldump -u "$USER" -p"$PASSWORD" database1 > "$DUMPFILE1"
+mysqldump -u "$USER" -p"$PASSWORD" database2 > "$DUMPFILE2"
+mysqldump -u "$USER" -p"$PASSWORD" database3 > "$DUMPFILE3"
+mysqldump -u "$USER" -p"$PASSWORD" database4 > "$DUMPFILE4"
+
+# Transfert vers le serveur distant
+scp "$DUMPFILE1" "$DUMPFILE2" "$DUMPFILE3" "$DUMPFILE4" user@IP_DU_SERVEUR:/chemin/vers/backup/db
+
+# Nettoyage local
+rm "$DUMPFILE1" "$DUMPFILE2" "$DUMPFILE3" "$DUMPFILE4"

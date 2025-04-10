@@ -1,0 +1,1 @@
+0 3 * * * /chemin/vers/backup_bd.sh

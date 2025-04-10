@@ -1,0 +1,156 @@
+CREATE DATABASE bdactivites;
+USE bdactivites;
+
+CREATE TABLE clients (
+    client_id INT AUTO_INCREMENT PRIMARY KEY,
+    gender ENUM('male', 'female', 'other') NOT NULL,
+    birth_date DATE NOT NULL,
+    marital_status ENUM('single', 'married', 'divorced', 'widowed') NOT NULL,
+    monthly_income DECIMAL(10, 2) DEFAULT NULL,
+    bank_name VARCHAR(255) DEFAULT 'bank1'
+);
+
+CREATE TABLE accounts (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    balance DECIMAL(15, 2),
+);
+
+CREATE TABLE transactions (
+    -transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    -transaction_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    -debit_account_id INT NOT NULL,
+    -credit_bank_name VARCHAR(255) NOT NULL,
+    -authentication_type VARCHAR(255) NOT NULL,
+    -transferred_amount DECIMAL(15, 2) NOT NULL,
+    -new_debit_account_state DECIMAL(15, 2) NOT NULL,
+    -age_at_request INT NOT NULL,
+);
+
+CREATE TABLE external_transactions (
+    external_transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    local_transaction_id INT NOT NULL,
+    status ENUM('pending', 'completed', 'failed', 'rejected') NOT NULL,
+);
+
+CREATE TABLE clients (
+    client_id INT AUTO_INCREMENT PRIMARY KEY,
+    gender ENUM('male', 'female', 'other') NOT NULL,
+    birth_date DATE NOT NULL,
+    marital_status ENUM('single', 'married', 'divorced', 'widowed') NOT NULL,
+    monthly_income DECIMAL(10, 2) DEFAULT NULL,
+    bank_name VARCHAR(255) DEFAULT 'bank2'
+);
+
+CREATE TABLE accounts (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    balance DECIMAL(15, 2),
+);
+
+CREATE TABLE transactions (
+    -transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    -transaction_datetime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    -debit_account_id INT NOT NULL,
+    -credit_bank_name VARCHAR(255) NOT NULL,
+    -authentication_type VARCHAR(255) NOT NULL,
+    -transferred_amount DECIMAL(15, 2) NOT NULL,
+    -new_debit_account_state DECIMAL(15, 2) NOT NULL,
+    -age_at_request INT NOT NULL,
+);
+
+CREATE TABLE external_transactions (
+    external_transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    local_transaction_id INT NOT NULL,
+    status ENUM('pending', 'completed', 'failed', 'rejected') NOT NULL,
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+);
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    address_id INT NOT NULL,
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    gender ENUM('M', 'F') NOT NULL,
+    birth_date DATE NOT NULL,
+    marital_status ENUM('single', 'married', 'divorced', 'widowed') NOT NULL,
+    monthly_salary DECIMAL(10, 2) NOT NULL,
+);
+CREATE TABLE addresses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    city VARCHAR(150) NOT NULL,
+    country VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT NOT NULL,
+    category_id INT NOT NULL,
+);
+CREATE TABLE stock (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    min_stock INT NOT NULL DEFAULT 0,
+    max_stock INT NOT NULL DEFAULT 100,
+);
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    order_time TIME NOT NULL,
+    total DECIMAL(10, 2) NOT NULL,
+    status ENUM('pending', 'shipped', 'delivered', 'cancelled','confirmed') NOT NULL,
+    bank_name VARCHAR(255) NOT NULL,
+    tracking_id VARCHAR(255) NOT NULL,
+    address_id INT NOT NULL,
+);
+CREATE TABLE order_lines (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+);
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    status ENUM('pending', 'completed', 'failed', 'refunded') NOT NULL,
+    payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    payment_method ENUM('credit_card', 'debit_card', 'paypal', 'bank_transfer') NOT NULL,
+);
+
+create table delivery_tracking
+(
+    ID                     int auto_increment primary key,
+    order_id               int          not null,
+    shipment_date          date         null,
+    estimate_delivery_date date         null,
+    address_id             int          not null,
+    constraint tracking_number
+    unique (tracking_number)
+);
+CREATE TABLE sav (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_id INT NOT NULL,
+    request_type ENUM('Open', 'In Progress', 'Resolved', 'Closed', 'Other') NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+CREATE TABLE chat (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    message TEXT NOT NULL,
+);
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+);

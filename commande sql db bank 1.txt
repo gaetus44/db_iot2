@@ -43,3 +43,19 @@ CREATE TABLE external_transactions (
     FOREIGN KEY (local_transaction_id) REFERENCES transactions(transaction_id) ON DELETE CASCADE
 );
 --------------------------------
+CREATE TABLE authentication_tokens (
+    authentication_id INT AUTO_INCREMENT PRIMARY KEY,
+    transaction_id INT NOT NULL,
+    auth_token VARCHAR(255),
+    status ENUM('none', 'verified', 'failed') NOT NULL,
+    FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id)
+);
+--------------------------
+CREATE TABLE card (
+    card_id INT AUTO_INCREMENT PRIMARY KEY,
+    account_id INT NOT NULL,
+    card_number VARCHAR(16),
+    cvv VARCHAR(4),
+    expiration_date DATE,
+    FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+);

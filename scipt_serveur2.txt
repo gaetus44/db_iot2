@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Dernier fichier .sql ajouté (le plus récent)
+LAST_DUMP=$(ls -t /chemin/vers/backup/db/database1*.sql | head -n 1)
+LAST_DUMP_transac=$(ls -t /chemin/vers/backup/db/database2*.sql | head -n 1)
+LAST_DUMP_bank1=$(ls -t /chemin/vers/backup/db/database3*.sql | head -n 1)
+LAST_DUMP_bank2=$(ls -t /chemin/vers/backup/db/database4*.sql | head -n 1)
+
+# Import dans les bases
+mysql -u utilisateur -p'MOTDEPASSE' database1 < "$LAST_DUMP"
+mysql -u utilisateur -p'MOTDEPASSE' database2 < "$LAST_DUMP_transac"
+mysql -u utilisateur -p'MOTDEPASSE' database3 < "$LAST_DUMP_bank1"
+mysql -u utilisateur -p'MOTDEPASSE' database4 < "$LAST_DUMP_bank2"
+
+# Déplacement des fichiers vers un dossier d'archive
+mv /chemin/vers/backup/db/*.sql /chemin/vers/last_backup
