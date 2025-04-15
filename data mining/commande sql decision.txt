@@ -1,0 +1,6 @@
+create database decision
+
+CREATE TABLE final_decision (
+    id INT PRIMARY KEY,
+    description VARCHAR(255) NOT NULL
+);

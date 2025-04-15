@@ -1,0 +1,30 @@
+import mysql.connector
+
+# 🔧 Connexion à la base
+db = mysql.connector.connect(
+    host="XXX.XXX.XXX.XXX",
+    user="XXXXXXX",
+    password="XXXXXXXXXX",
+    database="XXXXXXXXXXXX"
+)
+
+cursor = db.cursor()
+
+# 📥 ID de l'image à récupérer
+image_id = 1
+
+# 🔍 Requête SELECT
+sql = "SELECT image FROM temporary_decision WHERE id = %s"
+cursor.execute(sql, (image_id,))
+result = cursor.fetchone()
+
+if result and result[0]:
+    # 📁 Sauvegarde sur disque
+    with open("image_extraite.jpg", "wb") as file:
+        file.write(result[0])
+    print("✅ Image extraite avec succès sous le nom : image_extraite.jpg")
+else:
+    print("❌ Aucune image trouvée avec l'ID :", image_id)
+
+cursor.close()
+db.close()

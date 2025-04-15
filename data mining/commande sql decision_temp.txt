@@ -1,0 +1,9 @@
+create database decision_temp
+
+
+CREATE TABLE temporary_decision (
+    id INT PRIMARY KEY,
+    image LONGBLOB,
+    description VARCHAR(255) NOT NULL,
+    user_id INT NOT NULL
+);

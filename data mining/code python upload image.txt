@@ -1,0 +1,33 @@
+import mysql.connector
+
+# 🔧 Paramètres de connexion à ta base
+db = mysql.connector.connect(
+    host="XXX.XXX.XXX.XXX",
+    user="XXXXXXX",
+    password="XXXXXXXXXX",
+    database="XXXXXXXXXXXX"
+)
+
+cursor = db.cursor()
+
+# 📂 Fichier image à insérer
+image_path = "table db transac.png"
+
+# 📥 Lecture de l'image en binaire
+with open(image_path, 'rb') as file:
+    image_data = file.read()
+
+# 📝 Requête INSERT dans la table existante
+sql = """
+    INSERT INTO temporary_decision (id, image, description, user_id)
+    VALUES (%s, %s, %s, %s)
+"""
+values = (1, image_data, "Ceci est une image stockée", 42)
+
+cursor.execute(sql, values)
+db.commit()
+
+print("✅ Image insérée avec succès.")
+
+cursor.close()
+db.close()
