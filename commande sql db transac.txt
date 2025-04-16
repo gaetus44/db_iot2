@@ -75,3 +75,10 @@ CREATE TABLE payments (
     payment_method ENUM('credit_card', 'debit_card', 'paypal', 'bank_transfer') NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
+
+ALTER TABLE orders
+ADD livreur_id INT;
+
+ALTER TABLE orders
+ADD CONSTRAINT fk_livreur
+FOREIGN KEY (livreur_id) REFERENCES users(id);
